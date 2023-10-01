@@ -13,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.NavController;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.example.lab4_appiot_20200643.fragmentos.AcelerometroFragmentDirection
 import com.example.lab4_appiot_20200643.fragmentos.MagnetometroFragmentDirections;
 import com.example.lab4_appiot_20200643.retrofitService.ContactoSrevice;
 import com.example.lab4_appiot_20200643.viewmodel.ContactoViewModel;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +76,14 @@ public class AppActivity extends AppCompatActivity {
         buttonAdd.setOnClickListener(view -> {
             obtenerContacto();
         });
+        binding.buttonDetalles.setOnClickListener(view -> {
+            if(estoyEnMagnetometro){
+                MostrarDialogMagnetometro();
+            }else {
+                MostrarDialogAcelerometro();
+            }
+
+        });
 
         // Configura un listener para detectar cambios de destino en el NavController
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
@@ -122,6 +132,35 @@ public class AppActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private void MostrarDialogMagnetometro(){
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("Detalles - Magnetometro")
+                .setMessage("Haga CLICK en 'Añadir' para agregar contacto a su lista. Esta" +
+                        "aplicacion esta usando el MAGNETOMETRO de su dispositivo. \n\n " +
+                        "De esta manera su lista se mostrará al 100% cuando se apunte al NORTE. Caso contrario " +
+                        "se desvanecerá.")
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .show();
+    }
+    private void MostrarDialogAcelerometro(){
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("Detalles - Acelerometro")
+                .setMessage("Haga CLICK en 'Añadir' para agregar contacto a su lista. Esta" +
+                        "aplicacion esta usando el ACELEROMETRO de su dispositivo. \n\n " +
+                        "De esta manera, su lista hara scroll hacia abajo cuando agite su dispositivo.")
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .show();
     }
     private void updateButtonText() {
         Button buttomIrMagnetometro = findViewById(R.id.buttomIrMagnetometro);
